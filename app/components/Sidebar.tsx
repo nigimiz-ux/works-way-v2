@@ -28,6 +28,10 @@ type UserProfile = {
   position: string;
   role: string;
 };
+interface SidebarProps {
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+}
 
 const NAV_GROUPS = [
   {
@@ -223,7 +227,7 @@ export default function Sidebar() {
   };
 
   // ── 사이드바 내부 ─────────────────────────────────────────
-  const sidebarContent = (
+  const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
     <div className="flex flex-col h-full bg-slate-900 text-white">
 
       {/* 로고 */}

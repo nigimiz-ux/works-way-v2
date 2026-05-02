@@ -268,12 +268,12 @@ export default function CalendarPage() {
                     {/* 날짜 숫자 */}
                     <div className="flex justify-end mb-1">
                       <span className={`w-7 h-7 flex items-center justify-center text-xs font-semibold rounded-full ${isToday
-                          ? "bg-blue-600 text-white"
-                          : isSun || isHoliday
-                            ? "text-red-500"
-                            : isSat
-                              ? "text-blue-500"
-                              : "text-slate-700 dark:text-slate-300"
+                        ? "bg-blue-600 text-white"
+                        : isSun || isHoliday
+                          ? "text-red-500"
+                          : isSat
+                            ? "text-blue-500"
+                            : "text-slate-700 dark:text-slate-300"
                         }`}>
                         {day}
                       </span>
@@ -329,15 +329,15 @@ export default function CalendarPage() {
                 ) : (
                   events.filter(e => e.date === selected).map(ev => (
                     <div key={ev.id} className={`p-2.5 rounded-lg text-xs ${ev.type === "holiday"
-                        ? "bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30"
-                        : "bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/30"
+                      ? "bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30"
+                      : "bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/30"
                       }`}>
                       <div className="font-semibold text-slate-800 dark:text-slate-200">{ev.title}</div>
                       {ev.dept && <div className="text-slate-500 mt-0.5">{ev.dept}</div>}
                       {ev.status && (
                         <div className={`mt-1 inline-block px-1.5 py-0.5 rounded text-[10px] font-bold ${ev.status === "승인" ? "bg-green-100 text-green-700" :
-                            ev.status === "반려" ? "bg-red-100 text-red-700" :
-                              "bg-amber-100 text-amber-700"
+                          ev.status === "반려" ? "bg-red-100 text-red-700" :
+                            "bg-amber-100 text-amber-700"
                           }`}>
                           {ev.status}
                         </div>
@@ -379,8 +379,8 @@ export default function CalendarPage() {
                       </div>
                     </div>
                     <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${ev.type === "half"
-                        ? "bg-purple-100 text-purple-700"
-                        : "bg-blue-100 text-blue-700"
+                      ? "bg-purple-100 text-purple-700"
+                      : "bg-blue-100 text-blue-700"
                       }`}>
                       {ev.type === "half" ? "반차" : "연차"}
                     </span>
