@@ -46,22 +46,22 @@ const getDaysInMonth = (y: number, m: number) => new Date(y, m + 1, 0).getDate()
 const getFirstDayOfWeek = (y: number, m: number) => new Date(y, m, 1).getDay();
 
 const DAY_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
-const MONTH_LABELS = ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"];
+const MONTH_LABELS = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
 
 // ── 이벤트 색상 ──────────────────────────────────────────────
 const EVENT_STYLE: Record<string, string> = {
-  leave:   "bg-blue-500 text-white",
-  half:    "bg-purple-400 text-white",
+  leave: "bg-blue-500 text-white",
+  half: "bg-purple-400 text-white",
   holiday: "bg-red-100 text-red-700 border border-red-200",
 };
 
 export default function CalendarPage() {
   const today = new Date();
-  const [year, setYear]     = useState(today.getFullYear());
-  const [month, setMonth]   = useState(today.getMonth());
+  const [year, setYear] = useState(today.getFullYear());
+  const [month, setMonth] = useState(today.getMonth());
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
-  const [myEmail, setMyEmail]   = useState("");
+  const [myEmail, setMyEmail] = useState("");
   const [viewMode, setViewMode] = useState<"all" | "mine">("all");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -75,7 +75,7 @@ export default function CalendarPage() {
 
     // 해당 월 범위
     const from = `${year}-${String(month + 1).padStart(2, "0")}-01`;
-    const to   = `${year}-${String(month + 1).padStart(2, "0")}-${getDaysInMonth(year, month)}`;
+    const to = `${year}-${String(month + 1).padStart(2, "0")}-${getDaysInMonth(year, month)}`;
 
     // 연차 데이터 (승인된 것만 캘린더에 표시)
     const { data: leaves } = await supabase
@@ -158,7 +158,7 @@ export default function CalendarPage() {
   // 해당 날짜의 이벤트
   const eventsOn = (ymd: string) => {
     const filtered = events.filter(e => e.date === ymd);
-    if (viewMode === "mine") return filtered.filter(e => e.type === "holiday" || events.find(ev => ev.id === e.id && ev.name === emailToProfile(e)));
+    if (viewMode === "mine") return filtered.filter(e => e.type === "holiday" || e.name === myEmail);
     return filtered;
   };
 
@@ -168,7 +168,7 @@ export default function CalendarPage() {
     : [];
 
   // 달력 셀 생성
-  const firstDow  = getFirstDayOfWeek(year, month);
+  const firstDow = getFirstDayOfWeek(year, month);
   const daysInMon = getDaysInMonth(year, month);
   const cells: (number | null)[] = [
     ...Array(firstDow).fill(null),
@@ -236,9 +236,8 @@ export default function CalendarPage() {
             {/* 요일 헤더 */}
             <div className="grid grid-cols-7 border-b border-slate-200 dark:border-slate-800">
               {DAY_LABELS.map((d, i) => (
-                <div key={d} className={`py-3 text-center text-xs font-bold ${
-                  i === 0 ? "text-red-500" : i === 6 ? "text-blue-500" : "text-slate-500 dark:text-slate-400"
-                }`}>
+                <div key={d} className={`py-3 text-center text-xs font-bold ${i === 0 ? "text-red-500" : i === 6 ? "text-blue-500" : "text-slate-500 dark:text-slate-400"
+                  }`}>
                   {d}
                 </div>
               ))}
@@ -251,33 +250,31 @@ export default function CalendarPage() {
                   <div key={`empty-${idx}`} className="min-h-[90px] border-r border-b border-slate-100 dark:border-slate-800/50 bg-slate-50/50 dark:bg-slate-900/20" />
                 );
 
-                const ymd       = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-                const isToday   = ymd === todayYMD;
+                const ymd = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+                const isToday = ymd === todayYMD;
                 const isSelected = ymd === selected;
-                const dayEvents  = events.filter(e => e.date === ymd);
-                const isHoliday  = HOLIDAYS_2026[ymd];
-                const dow        = (firstDow + day - 1) % 7;
-                const isSun      = dow === 0;
-                const isSat      = dow === 6;
+                const dayEvents = events.filter(e => e.date === ymd);
+                const isHoliday = HOLIDAYS_2026[ymd];
+                const dow = (firstDow + day - 1) % 7;
+                const isSun = dow === 0;
+                const isSat = dow === 6;
 
                 return (
                   <div key={ymd}
                     onClick={() => setSelected(isSelected ? null : ymd)}
-                    className={`min-h-[90px] border-r border-b border-slate-100 dark:border-slate-800/50 p-1.5 cursor-pointer transition-colors ${
-                      isSelected ? "bg-blue-50 dark:bg-blue-900/20" : "hover:bg-slate-50 dark:hover:bg-slate-800/30"
-                    }`}>
+                    className={`min-h-[90px] border-r border-b border-slate-100 dark:border-slate-800/50 p-1.5 cursor-pointer transition-colors ${isSelected ? "bg-blue-50 dark:bg-blue-900/20" : "hover:bg-slate-50 dark:hover:bg-slate-800/30"
+                      }`}>
 
                     {/* 날짜 숫자 */}
                     <div className="flex justify-end mb-1">
-                      <span className={`w-7 h-7 flex items-center justify-center text-xs font-semibold rounded-full ${
-                        isToday
+                      <span className={`w-7 h-7 flex items-center justify-center text-xs font-semibold rounded-full ${isToday
                           ? "bg-blue-600 text-white"
                           : isSun || isHoliday
-                          ? "text-red-500"
-                          : isSat
-                          ? "text-blue-500"
-                          : "text-slate-700 dark:text-slate-300"
-                      }`}>
+                            ? "text-red-500"
+                            : isSat
+                              ? "text-blue-500"
+                              : "text-slate-700 dark:text-slate-300"
+                        }`}>
                         {day}
                       </span>
                     </div>
@@ -331,19 +328,17 @@ export default function CalendarPage() {
                   <p className="text-xs text-slate-400">일정이 없습니다.</p>
                 ) : (
                   events.filter(e => e.date === selected).map(ev => (
-                    <div key={ev.id} className={`p-2.5 rounded-lg text-xs ${
-                      ev.type === "holiday"
+                    <div key={ev.id} className={`p-2.5 rounded-lg text-xs ${ev.type === "holiday"
                         ? "bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30"
                         : "bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/30"
-                    }`}>
+                      }`}>
                       <div className="font-semibold text-slate-800 dark:text-slate-200">{ev.title}</div>
                       {ev.dept && <div className="text-slate-500 mt-0.5">{ev.dept}</div>}
                       {ev.status && (
-                        <div className={`mt-1 inline-block px-1.5 py-0.5 rounded text-[10px] font-bold ${
-                          ev.status === "승인" ? "bg-green-100 text-green-700" :
-                          ev.status === "반려" ? "bg-red-100 text-red-700" :
-                          "bg-amber-100 text-amber-700"
-                        }`}>
+                        <div className={`mt-1 inline-block px-1.5 py-0.5 rounded text-[10px] font-bold ${ev.status === "승인" ? "bg-green-100 text-green-700" :
+                            ev.status === "반려" ? "bg-red-100 text-red-700" :
+                              "bg-amber-100 text-amber-700"
+                          }`}>
                           {ev.status}
                         </div>
                       )}
@@ -352,7 +347,7 @@ export default function CalendarPage() {
                 )}
               </div>
             ) : (
-              <p className="text-xs text-slate-400">달력에서 날짜를 클릭하면<br/>해당 일의 일정을 볼 수 있습니다.</p>
+              <p className="text-xs text-slate-400">달력에서 날짜를 클릭하면<br />해당 일의 일정을 볼 수 있습니다.</p>
             )}
           </div>
 
@@ -383,11 +378,10 @@ export default function CalendarPage() {
                         <div className="text-slate-400">{ev.dept}</div>
                       </div>
                     </div>
-                    <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
-                      ev.type === "half"
+                    <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${ev.type === "half"
                         ? "bg-purple-100 text-purple-700"
                         : "bg-blue-100 text-blue-700"
-                    }`}>
+                      }`}>
                       {ev.type === "half" ? "반차" : "연차"}
                     </span>
                   </div>
