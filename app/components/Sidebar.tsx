@@ -21,7 +21,7 @@ type Notification = {
   link: string;
   is_read: boolean;
   created_at: string;
-  user_email: string;
+  user_email?: string;
 };
 
 type UserProfile = {
