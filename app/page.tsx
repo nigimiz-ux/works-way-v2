@@ -11,7 +11,6 @@ import {
   Megaphone, Plus, X, Trash2,
 } from "lucide-react";
 import WritePostModal from "./components/WritePostModal";
-import PostTable from "./components/PostTable";
 
 // ── Supabase 클라이언트 (page-old.tsx 4~10번 줄과 동일한 방식) ──────────
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
@@ -372,11 +371,6 @@ export default function Home() {
             ))
           )}
         </div>
-      </div>
-
-      {/* ⑦ 전체 게시글 테이블 (page-old.tsx 원본) */}
-      <div className="bg-white dark:bg-slate-950 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
-        <PostTable posts={posts} error={postsError} />
       </div>
 
       {/* ⑧ 푸터 (page-old.tsx 원본) */}
