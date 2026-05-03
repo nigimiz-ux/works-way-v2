@@ -55,7 +55,6 @@ const NAV_GROUPS = [
     label: "소통",
     items: [
       { name: "부서 소통 게시판", href: "/department-board", icon: MessageCircle },
-      { name: "전체 공지", href: "#", icon: Megaphone },
       { name: "직원 주소록", href: "/directory", icon: Users },
     ],
   },
