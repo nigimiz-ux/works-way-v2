@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import WritePostModal from "./components/WritePostModal";
 import PostTable from "./components/PostTable";
-import SummaryCards from "./components/SummaryCards";
 
 // ── Supabase 클라이언트 (page-old.tsx 4~10번 줄과 동일한 방식) ──────────
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
@@ -236,11 +235,6 @@ export default function Home() {
         <WritePostModal />
       </div>
 
-      {/* ② 요약 카드 (page-old.tsx 원본) */}
-      <SummaryCards
-        pendingLeaveCount={pendingLeaveCount}
-        totalPostCount={postsCount}
-      />
 
       {/* ③ 숫자 스탯 카드 4개 (DashboardCharts.tsx 원본) */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -335,7 +329,7 @@ export default function Home() {
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <Megaphone size={16} className="text-amber-500" />
-            <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">📢 최근 공지사항</h3>
+            <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">전임직원 확인사항 공지</h3>
           </div>
           {isAdmin && (
             <button
