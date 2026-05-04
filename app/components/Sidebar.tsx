@@ -7,7 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard, KanbanSquare, ClipboardList, CalendarDays,
   CreditCard, MessageCircle, Megaphone, Users, Settings,
-  Inbox, UserCheck, Menu, X, Bell, User, LogOut
+  Inbox, UserCheck, Menu, X, Bell, User, LogOut, Target
 } from "lucide-react";
 
 const supabase = createClient(
@@ -47,6 +47,7 @@ const NAV_GROUPS = [
     items: [
       { name: "프로젝트 보드", href: "/projects", icon: KanbanSquare },
       { name: "일상보고", href: "/daily-report", icon: ClipboardList },
+      { name: "OKR 목표관리", href: "/okr", icon: Target },
       { name: "연차신청", href: "/leave", icon: CalendarDays },
       { name: "법인카드 사용 내역", href: "/expense", icon: CreditCard },
     ],
