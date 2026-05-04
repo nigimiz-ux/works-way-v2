@@ -56,6 +56,7 @@ const NAV_GROUPS = [
     items: [
       { name: "부서 소통 게시판", href: "/department-board", icon: MessageCircle },
       { name: "직원 주소록", href: "/directory", icon: Users },
+      { name: "주간 업무", href: "/weekly", icon: ClipboardList },
     ],
   },
 ];

@@ -72,22 +72,22 @@ export default function Home() {
   const [postsCount, setPostsCount] = useState(0);
 
   // ── 차트 데이터 상태 (DashboardCharts.tsx 원본) ──
-  const [leaveByDept, setLeaveByDept]           = useState<any[]>([]);
+  const [leaveByDept, setLeaveByDept] = useState<any[]>([]);
   const [expenseByCategory, setExpenseByCategory] = useState<any[]>([]);
-  const [projectStatus, setProjectStatus]       = useState<any[]>([]);
+  const [projectStatus, setProjectStatus] = useState<any[]>([]);
   const [pendingLeaveCount, setPendingLeaveCount] = useState(0);
-  const [pendingExpense, setPendingExpense]      = useState(0);
-  const [approvedToday, setApprovedToday]       = useState(0);
-  const [isChartLoading, setIsChartLoading]     = useState(true);
+  const [pendingExpense, setPendingExpense] = useState(0);
+  const [approvedToday, setApprovedToday] = useState(0);
+  const [isChartLoading, setIsChartLoading] = useState(true);
 
   // ── 공지사항 상태 (NoticeWidget 원본) ──
-  const [isAdmin, setIsAdmin]                   = useState(false);
-  const [notices, setNotices]                   = useState<Notice[]>([]);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [notices, setNotices] = useState<Notice[]>([]);
   const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
-  const [selectedNotice, setSelectedNotice]     = useState<Notice | null>(null);
-  const [newTitle, setNewTitle]                 = useState("");
-  const [newContent, setNewContent]             = useState("");
-  const [isSubmitting, setIsSubmitting]         = useState(false);
+  const [selectedNotice, setSelectedNotice] = useState<Notice | null>(null);
+  const [newTitle, setNewTitle] = useState("");
+  const [newContent, setNewContent] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // ── 데이터 패치 ────────────────────────────────────────────────────
   useEffect(() => {
