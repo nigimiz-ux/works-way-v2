@@ -25,11 +25,11 @@ export default function ProjectsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [sessionEmail, setSessionEmail] = useState("");
   const [userRole, setUserRole] = useState("user");
-  
+
   // Modal states
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  
+
   // New Project states
   const [isNewOpen, setIsNewOpen] = useState(false);
   const [newTitle, setNewTitle] = useState("");
@@ -57,13 +57,13 @@ export default function ProjectsPage() {
     const { data: { session } } = await supabase.auth.getSession();
     if (session?.user?.email) {
       setSessionEmail(session.user.email);
-      
+
       const { data: profile } = await supabase
         .from("profiles")
         .select("role")
         .eq("email", session.user.email)
         .single();
-      
+
       if (profile) {
         setUserRole(profile.role || "user");
       }
@@ -77,7 +77,7 @@ export default function ProjectsPage() {
     if (error) {
       console.error("프로젝트 로딩 에러:", error);
       if (error.code === '42P01') {
-         console.warn("Table does not exist. Using empty array.");
+        console.warn("Table does not exist. Using empty array.");
       }
     } else {
       setProjects(data as Project[] || []);
@@ -85,32 +85,33 @@ export default function ProjectsPage() {
     setIsLoading(false);
   };
 
-  const handleDragEnd = async (result: DropResult) => {
+  const handleDragEnd = async (result: any) => {
     const { destination, source, draggableId } = result;
-
     if (!destination) return;
+
     if (destination.droppableId === source.droppableId && destination.index === source.index) return;
 
-    const newStatus = destination.droppableId as ProjectStatus;
-    const projectId = draggableId; // 숫자/UUID 범용 처리를 위해 parseInt 제거
+    const newStatus = destination.droppableId as any;
 
-    // 프론트엔드 상태 즉시 업데이트 (Optimistic Update)
-    setProjects(projects.map(p => p.id.toString() === projectId ? { ...p, status: newStatus } : p));
+    // 1. 화면(UI) 임시 이동
+    setProjects(projects.map(p =>
+      String(p.id) === String(draggableId) ? { ...p, status: newStatus } : p
+    ));
 
-    // DB 업데이트
-    const { error } = await supabase
-      .from("projects")
+    // 2. DB 업데이트 및 결과(.select) 강제 확인
+    const { data, error } = await supabase
+      .from('projects')
       .update({ status: newStatus })
-      .eq("id", projectId);
+      .eq('id', draggableId)
+      .select(); // 업데이트 된 결과를 내놓으라고 강제 명령
 
+    // 3. 🚨 에러 원인을 화면에 바로 팝업으로 띄우기
     if (error) {
-      console.error("Drag & Drop DB Update Error:", error, { projectId, newStatus });
-      alert(`상태 업데이트에 실패했습니다: ${error.message}`);
-      // 실패 시 원래 상태로 복구
-      fetchSessionAndProjects();
+      alert("🚨 DB 에러: " + error.message);
+    } else if (!data || data.length === 0) {
+      alert("🚨 DB 업데이트 거부됨: 권한(RLS)이 없거나 ID가 안 맞습니다.");
     }
   };
-
   const handleDeleteProject = async (projectId: any) => {
     // 1차 검증: 클라이언트 상태 (UI 방어)
     if (userRole !== 'admin') {
@@ -220,10 +221,10 @@ export default function ProjectsPage() {
                   {projects.filter(p => p.status === col.id).length}
                 </span>
               </div>
-              
+
               <Droppable droppableId={col.id}>
                 {(provided) => (
-                  <div 
+                  <div
                     className="p-4 flex-1 overflow-y-auto space-y-4"
                     ref={provided.innerRef}
                     {...provided.droppableProps}
@@ -233,7 +234,7 @@ export default function ProjectsPage() {
                     ) : projects.filter(p => p.status === col.id).map((project, index) => (
                       <Draggable key={project.id.toString()} draggableId={project.id.toString()} index={index}>
                         {(provided, snapshot) => (
-                          <div 
+                          <div
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
@@ -248,7 +249,7 @@ export default function ProjectsPage() {
                             <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 mb-4">
                               {project.description || "설명이 없습니다."}
                             </p>
-                            
+
                             <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800">
                               <div className="flex items-center text-xs text-slate-400 gap-1.5">
                                 <Clock size={14} />
@@ -330,11 +331,11 @@ export default function ProjectsPage() {
       )}
 
       {/* Detail Modal */}
-      <ProjectDetailModal 
-        isOpen={isDetailOpen} 
-        onClose={() => setIsDetailOpen(false)} 
-        project={selectedProject} 
-        sessionEmail={sessionEmail} 
+      <ProjectDetailModal
+        isOpen={isDetailOpen}
+        onClose={() => setIsDetailOpen(false)}
+        project={selectedProject}
+        sessionEmail={sessionEmail}
         userRole={userRole}
         onDeleteProject={handleDeleteProject}
       />
